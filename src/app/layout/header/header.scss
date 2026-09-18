@@ -1,0 +1,97 @@
+.app-header {
+  grid-area: header;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  height: var(--header-height);
+
+  background: var(--bg-header);
+
+  border-bottom: 1px solid var(--border-color);
+}
+
+
+/* Logo */
+
+.brand {
+  width: var(--sidebar-width);
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 0 20px;
+
+  border-right: 1px solid var(--border-color);
+
+  box-sizing: border-box;
+}
+
+.brand-logo {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: var(--accent);
+
+  font-size: 20px;
+}
+
+.brand-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-info strong {
+  font-size: 16px;
+  color: var(--text-primary);
+}
+
+.brand-info span {
+  font-size: 11px;
+
+  letter-spacing: 1px;
+
+  color: var(--text-secondary);
+}
+
+
+/* Configurações */
+
+.header-actions {
+  display: flex;
+  align-items: center;
+
+  padding-right: 24px;
+}
+
+.config-button {
+  width: 40px;
+  height: 40px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: transparent;
+
+  color: var(--text-primary);
+
+  font-size: 20px;
+
+  cursor: pointer;
+
+  transition: background 0.2s;
+}
+
+.config-button:hover {
+  background: var(--accent-dark);
+}
