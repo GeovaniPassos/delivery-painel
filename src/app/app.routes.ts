@@ -1,8 +1,10 @@
 import { Routes } from '@angular/router';
 import { Layout } from './layout/layout/layout';
-import { Categories } from './categories/categories';
-import { Orders } from './orders/orders';
+import { Categories } from './components/categories/categories';
+import { Orders } from './components/orders/orders';
 import path from 'path/win32';
+import { Products } from './components/products/products';
+import { Optionais } from './components/optionais/optionais';
 
 export const routes: Routes = [
     
@@ -26,13 +28,13 @@ export const routes: Routes = [
                 redirectTo: 'pedidos',
                 pathMatch: 'full' },
             { path: 'pedidos', component: Orders },
-            { path: 'categoria', component: Categories },
-            // { path: 'produtos', component: ProductsGrid },
+            { path: 'categorias', component: Categories },
+            { path: 'produtos', component: Products },
             // { path: 'carrinho', component: Cart },
             // { path: 'login', component: Login },
             // { path: 'pizzas', component: PizzaModal },
             // { path: 'combos', component: ComboModal },
-            // { path: 'opcionais', component: DefaultModal },
+            { path: 'opcionais', component: Optionais },
         ]
     } 
     

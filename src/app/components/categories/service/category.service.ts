@@ -2,7 +2,7 @@ import { inject, Injectable } from "@angular/core";
 import { Category } from "../model/category.model";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
-import { environment } from "../../../environments/environment.development";
+import { environment } from "../../../../environments/environment.development";
 
 @Injectable({
     providedIn: 'root'
@@ -14,5 +14,9 @@ export class CategoryService {
 
     findAll(): Observable<Category[]> {
         return this.http.get<Category[]>(this.apiUrl);
+    }
+
+    delete(categoryId: number): Observable<void> {
+        return this.http.delete<void>(`${this.apiUrl}/${categoryId}`);
     }
 }
