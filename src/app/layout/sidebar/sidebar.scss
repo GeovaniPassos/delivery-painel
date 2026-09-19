@@ -1,6 +1,5 @@
 .sidebar {
   grid-area: sidebar;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -8,6 +7,8 @@
   background: var(--bg-sidebar);
 
   border-right: 1px solid var(--border-color);
+
+  height: 100vw;
 }
 
 
@@ -16,10 +17,10 @@
 .sidebar-nav {
   display: flex;
   flex-direction: column;
-
+  
   gap: 6px;
 
-  padding: 16px 12px;
+  padding: 18px 47px;
 }
 
 .nav-item {

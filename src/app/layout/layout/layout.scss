@@ -1,7 +1,7 @@
 .app-layout {
   min-height: 100vh;
 
-  display: grid;
+  display: block;
 
   grid-template-columns:
     var(--sidebar-width)
@@ -19,12 +19,11 @@
   color: var(--text-primary);
 }
 
-.page-content {
+.app-content {
+  display: flex;
   grid-area: main;
 
   min-width: 0;
-
-  padding: 24px;
 
   background: var(--bg-main);
 
