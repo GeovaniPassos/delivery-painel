@@ -3,20 +3,20 @@
     align-items: center;
     justify-content: space-between;
     
-    margin-bottom: 20px;
+	margin-bottom: var(--space-xl);
 }
 
 .btn {
-    padding: 8px 16px;
+	padding: var(--space-sm) var(--space-lg);
     border: none;
-    border-radius: 4px;
+	border-radius: var(--radius-sm);
     background-color: var(--accent);
     color: var(--text-primary);
-    font-size: 14px;
-    font-weight: 600;
+	font-size: var(--font-size-md);
+	font-weight: var(--font-weight-semibold);
     cursor: pointer;
 
-    transition: background-color 0.2s;
+	transition: background-color var(--transition-fast);
 }
 
 .btn:hover {
@@ -31,8 +31,8 @@ h1 {
 	margin: 10px 0;
 
 	color: var(--text-primary);
-	font-size: 28px;
-	font-weight: 600;
+	font-size: var(--font-size-heading);
+	font-weight: var(--font-weight-semibold);
 }
 
 ul {
@@ -40,8 +40,8 @@ ul {
 
 	overflow: hidden;
 
-	border: 1px solid var(--border-color);
-	border-radius: 8px;
+	border: var(--border-width) solid var(--border-color);
+	border-radius: var(--radius-md);
 
 	list-style: none;
 }
@@ -49,18 +49,18 @@ ul {
 ul > li {
 	display: flex;
 	align-items: center;
-	gap: 8px;
+	gap: var(--space-sm);
 
-	padding: 16px 20px;
+	padding: var(--space-lg) var(--space-xl);
 
 	color: var(--text-primary);
 	background: var(--bg-sidebar);
 
-	border-bottom: 1px solid var(--border-color);
+	border-bottom: var(--border-width) solid var(--border-color);
 
 	transition:
-		background 0.2s,
-		padding-left 0.2s;
+		background var(--transition-fast),
+		padding-left var(--transition-fast);
 }
 
 ul > li:nth-child(even) {
@@ -72,7 +72,7 @@ ul > li:last-child {
 }
 
 ul > li:hover {
-	padding-left: 24px;
+	padding-left: var(--space-2xl);
 
 	background: var(--accent-dark);
 }
@@ -85,7 +85,7 @@ ul > li .btn {
 	font-size: 0;
 	line-height: 1;
 
-	border: 1px solid var(--border-color);
+	border: var(--border-width) solid var(--border-color);
 	background: transparent;
 }
 
@@ -94,7 +94,7 @@ ul > li .btn-edit {
 }
 
 ul > li .btn::before {
-	font-size: 18px;
+	font-size: var(--font-size-lg);
 }
 
 ul > li .btn-edit::before {
@@ -111,8 +111,8 @@ ul > li .btn-edit:hover {
 }
 
 ul > li .btn-delete:hover {
-	color: #ff8a7a;
-	background: #572018;
+	color: var(--danger-text);
+	background: var(--danger-dark);
 }
 
 p {
@@ -127,27 +127,27 @@ p {
 	display: grid;
 	place-items: center;
 
-	padding: 24px;
+	padding: var(--space-2xl);
 
-	background: rgb(0 0 0 / 65%);
+	background: var(--overlay-bg);
 }
 
 .delete-modal {
 	width: min(100%, 420px);
-	padding: 24px;
+	padding: var(--space-2xl);
 
-	border: 1px solid var(--border-color);
-	border-radius: 8px;
+	border: var(--border-width) solid var(--border-color);
+	border-radius: var(--radius-md);
 
 	background: var(--bg-sidebar);
-	box-shadow: 0 12px 32px rgb(0 0 0 / 35%);
+	box-shadow: var(--shadow-modal);
 }
 
 .delete-modal h2 {
 	margin-bottom: 12px;
 
 	color: var(--text-primary);
-	font-size: 20px;
+	font-size: var(--font-size-xl);
 }
 
 .delete-modal p {
@@ -157,24 +157,24 @@ p {
 .modal-actions {
 	display: flex;
 	justify-content: flex-end;
-	gap: 10px;
+	gap: var(--space-md);
 
-	margin-top: 24px;
+	margin-top: var(--space-2xl);
 }
 
 .modal-actions .btn {
-	font-size: 14px;
+	font-size: var(--font-size-md);
 }
 
 .btn-cancel {
-	border: 1px solid var(--border-color);
+	border: var(--border-width) solid var(--border-color);
 	background: transparent;
 }
 
 .btn-confirm-delete {
-	background: #b93627;
+	background: var(--danger);
 }
 
 .btn-confirm-delete:hover {
-	background: #8f281d;
+	background: var(--danger-dark);
 }

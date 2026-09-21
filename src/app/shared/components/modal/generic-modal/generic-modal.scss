@@ -6,46 +6,46 @@
   display: grid;
   place-items: center;
 
-  padding: 24px;
+  padding: var(--space-2xl);
 
-  background: rgb(0 0 0 / 65%);
+  background: var(--overlay-bg);
 }
 
 .modal-container {
   width: min(100%, 420px);
-  padding: 24px;
+  padding: var(--space-2xl);
 
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--radius-md);
 
   background: var(--bg-sidebar);
-  box-shadow: 0 12px 32px rgb(0 0 0 / 35%);
+  box-shadow: var(--shadow-modal);
 
   color: var(--text-primary);
 
   &.modal-confirmation,
   &.modal-info {
-    border-top: 4px solid var(--accent);
+    border-top: var(--space-xs) solid var(--accent);
   }
 
   &.modal-danger {
-    border-top: 4px solid #b93627;
+    border-top: var(--space-xs) solid var(--danger);
   }
 
   &.modal-success {
-    border-top: 4px solid #00d084;
+    border-top: var(--space-xs) solid var(--success);
   }
 
   &.modal-alert {
-    border-top: 4px solid #f0b429;
+    border-top: var(--space-xs) solid var(--warning);
   }
 }
 
 .modal-header h3 {
-  margin-bottom: 12px;
+  margin-bottom: var(--space-md);
 
   color: var(--text-primary);
-  font-size: 20px;
+  font-size: var(--font-size-xl);
 }
 
 .modal-body {
@@ -56,24 +56,24 @@
 .modal-footer {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
+  gap: var(--space-md);
 
-  margin-top: 24px;
+  margin-top: var(--space-2xl);
 }
 
 .modal-footer button {
-  padding: 8px 16px;
+  padding: var(--space-sm) var(--space-lg);
 
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
+  border: var(--border-width) solid var(--border-color);
+  border-radius: var(--radius-sm);
 
   color: var(--text-primary);
-  font-size: 14px;
-  font-weight: 600;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
 
   cursor: pointer;
 
-  transition: background-color 0.2s;
+  transition: background-color var(--transition-fast);
 }
 
 .btn-secondary {
@@ -94,10 +94,10 @@
 }
 
 .btn-primary.btn-danger {
-  border-color: #b93627;
-  background: #b93627;
+  border-color: var(--danger);
+  background: var(--danger);
 }
 
 .btn-primary.btn-danger:hover {
-  background: #8f281d;
+  background: var(--danger-dark);
 }

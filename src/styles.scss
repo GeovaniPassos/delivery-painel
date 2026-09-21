@@ -2,10 +2,34 @@
 :root {
   --header-height: 80px;
   --sidebar-width: 225px;
+  --sidebar-nav-padding: 18px 47px;
+
+  --font-family-base: Arial, sans-serif;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-md: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 20px;
+  --font-size-heading: 28px;
+  --font-weight-semibold: 600;
+
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 16px;
+  --space-xl: 20px;
+  --space-2xl: 24px;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --border-width: 1px;
+  --transition-fast: 0.2s;
 
   --bg-main: #100d08;
   --bg-header: #1b120d;
   --bg-sidebar: #20150f;
+  --bg-hover: #2b1c14;
+  --overlay-bg: rgb(0 0 0 / 65%);
 
   --border-color: #3a291d;
 
@@ -14,6 +38,13 @@
 
   --accent: #f15a29;
   --accent-dark: #4a2417;
+  --success: #00d084;
+  --warning: #f0b429;
+  --danger: #b93627;
+  --danger-dark: #8f281d;
+  --danger-text: #ff8a7a;
+
+  --shadow-modal: 0 12px 32px rgb(0 0 0 / 35%);
 }
 
 * {
@@ -28,7 +59,7 @@ body {
 }
 
 body {
-  font-family: Arial, sans-serif;
+  font-family: var(--font-family-base);
   background: var(--bg-main);
   color: var(--text-primary);
 }
