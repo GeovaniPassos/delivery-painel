@@ -1,9 +1,11 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CategoryService } from './service/category.service';
 import { Category } from './model/category.model';
+import { ModalType } from '../../shared/enums/modal-type.enum';
+import { GenericModal } from '../../shared/components/modal/generic-modal/generic-modal';
 
 @Component({
-  imports: [],
+  imports: [GenericModal],
   selector: 'app-categories',
   styleUrl: './categories.scss',
   templateUrl: './categories.html',
@@ -16,8 +18,13 @@ export class Categories implements OnInit{
   readonly error = signal<string | null>(null);
   readonly categoryToDelete = signal<Category | null>(null);
 
+  protected readonly ModalType = ModalType;
+  
+  isModalOpen = signal(false);
+  modalConfig = signal({ type: ModalType.CONFIRMATION, title: ''});
+
   ngOnInit(): void {
-    this.loadCategories();
+    this.loadCategories();  
   }
 
   private loadCategories(): void {
@@ -72,5 +79,17 @@ export class Categories implements OnInit{
         console.error(err);
       },
     });
+  }
+
+  openDeleteModal() {
+    this.modalConfig.set({
+      type: this.ModalType.DANGER,
+      title: 'Atenção'
+    });
+    this.isModalOpen.set(true);
+  }
+
+  deletarCategory() {
+    console.log('Categoria deletada');
   }
 }

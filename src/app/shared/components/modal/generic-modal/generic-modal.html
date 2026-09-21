@@ -1,0 +1,35 @@
+<!-- generic-modal.component.html -->
+@if (isOpen()) {
+  <div class="modal-overlay" (click)="onCancel()">
+    
+    <!-- O container muda a classe de estilo e o role dinamicamente baseado no Enum -->
+    <div class="modal-container"
+         [ngClass]="'modal-' + type()"
+         [attr.role]="type() === ModalType.DANGER || type() === ModalType.ALERT ? 'alertdialog' : 'dialog'"
+         aria-modal="true"
+         (click)="$event.stopPropagation()">
+      
+      <!-- Header do Modal -->
+      <div class="modal-header">
+        <h3>{{ title() }}</h3>
+      </div>
+
+      <!-- Corpo do Modal (Usa projeção de conteúdo para flexibilidade) -->
+      <div class="modal-body">
+        <ng-content></ng-content>
+      </div>
+
+      <!-- Rodapé com Botões específicos -->
+      <div class="modal-footer">
+        <button class="btn-secondary" (click)="onCancel()">Cancelar</button>
+        
+        <button class="btn-primary" 
+                [ngClass]="{'btn-danger': type() === ModalType.DANGER}" 
+                (click)="onConfirm()">
+          Confirmar
+        </button>
+      </div>
+
+    </div>
+  </div>
+}

@@ -1,0 +1,37 @@
+<div class="categories-header">
+  <h1>Lista de categorias</h1>
+  <button class="btn btn-primary" (click)="onAddCategory()" >Adicionar categoria</button> 
+</div>
+
+
+@if (loading()) {
+  <p>Carregando...</p>
+} @else if (error()) {
+  <p>Erro: {{ error() }}</p>
+} @else if (categories().length === 0) {
+  <p>Nenhuma categoria encontrada.</p>
+} @else {
+  <ul>
+      @for (category of categories(); track category.id) {
+      <li>{{ category.name }}
+        <button class="btn btn-edit">Editar</button>
+        <button class="btn btn-delete" (click)="openDeleteModal()">Excluir</button>
+      </li>
+      }
+  </ul>
+} 
+
+<app-generic-modal 
+    [type]="modalConfig().type"   
+    [title]="modalConfig().title"
+    [isOpen]="isModalOpen()"
+    (confirm)="deletarCategory()"
+    (cancel)="isModalOpen.set(false)">
+    
+    <!-- O texto abaixo entra no <ng-content> -->
+    <p>Tem certeza que deseja excluir esta categoria?</p>
+    
+</app-generic-modal>
+
+
+

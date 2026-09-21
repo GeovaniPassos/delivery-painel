@@ -1,10 +1,9 @@
 import { Routes } from '@angular/router';
 import { Layout } from './layout/layout/layout';
-import { Categories } from './components/categories/categories';
-import { Orders } from './components/orders/orders';
-import path from 'path/win32';
-import { Products } from './components/products/products';
-import { Optionais } from './components/optionais/optionais';
+import { Orders } from './features/orders/orders';
+import { Categories } from './features/categories/categories';
+import { Products } from './features/products/products';
+import { Optionais } from './features/optionais/optionais';
 
 export const routes: Routes = [
     

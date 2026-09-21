@@ -1,0 +1,103 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+
+  display: grid;
+  place-items: center;
+
+  padding: 24px;
+
+  background: rgb(0 0 0 / 65%);
+}
+
+.modal-container {
+  width: min(100%, 420px);
+  padding: 24px;
+
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+
+  background: var(--bg-sidebar);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 35%);
+
+  color: var(--text-primary);
+
+  &.modal-confirmation,
+  &.modal-info {
+    border-top: 4px solid var(--accent);
+  }
+
+  &.modal-danger {
+    border-top: 4px solid #b93627;
+  }
+
+  &.modal-success {
+    border-top: 4px solid #00d084;
+  }
+
+  &.modal-alert {
+    border-top: 4px solid #f0b429;
+  }
+}
+
+.modal-header h3 {
+  margin-bottom: 12px;
+
+  color: var(--text-primary);
+  font-size: 20px;
+}
+
+.modal-body {
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+
+  margin-top: 24px;
+}
+
+.modal-footer button {
+  padding: 8px 16px;
+
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: background-color 0.2s;
+}
+
+.btn-secondary {
+  background: transparent;
+}
+
+.btn-secondary:hover {
+  background: var(--accent-dark);
+}
+
+.btn-primary {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+
+.btn-primary:hover {
+  background: var(--accent-dark);
+}
+
+.btn-primary.btn-danger {
+  border-color: #b93627;
+  background: #b93627;
+}
+
+.btn-primary.btn-danger:hover {
+  background: #8f281d;
+}
