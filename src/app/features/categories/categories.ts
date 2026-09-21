@@ -3,6 +3,7 @@ import { CategoryService } from './service/category.service';
 import { Category } from './model/category.model';
 import { ModalType } from '../../shared/enums/modal-type.enum';
 import { GenericModal } from '../../shared/components/modal/generic-modal/generic-modal';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   imports: [GenericModal],
@@ -16,12 +17,18 @@ export class Categories implements OnInit{
   readonly categories = signal<Category[]>([]);
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
-  readonly categoryToDelete = signal<Category | null>(null);
 
   protected readonly ModalType = ModalType;
   
-  isModalOpen = signal(false);
-  modalConfig = signal({ type: ModalType.CONFIRMATION, title: ''});
+  protected isModalOpen = signal(false);
+  protected categoryToDelete = signal<number | null>(null);
+
+  protected modalConfig = signal({ 
+    type: ModalType.CONFIRMATION, 
+    title: '',
+    message: '',
+    showCancelButton: true
+  });
 
   ngOnInit(): void {
     this.loadCategories();  
@@ -45,51 +52,60 @@ export class Categories implements OnInit{
   }
 
   onAddCategory(): void {
+  }
+
+  onClickDeleteCategory(categoryId: number): void {
+    this.categoryToDelete.set(categoryId);
     
-  }
-
-  askDeleteCategory(category: Category): void {
-    this.categoryToDelete.set(category);
-  }
-
-  cancelDelete(): void {
-    this.categoryToDelete.set(null);
-  }
-
-  confirmDelete(): void {
-    const category = this.categoryToDelete();
-
-    if (!category) {
-      return;
-    }
-
-    this.categoryToDelete.set(null);
-    this.onDeleteCategory(category.id);
-  }
-
-  onDeleteCategory(categoryId: number): void {
-    this.categoryService.delete(categoryId).subscribe({
-      next: () => {
-        // Remove the deleted category from the signal
-        const updatedCategories = this.categories().filter(category => category.id !== categoryId);
-        this.categories.set(updatedCategories);
-      },
-      error: (err) => {
-        this.error.set('Failed to delete category');
-        console.error(err);
-      },
-    });
-  }
-
-  openDeleteModal() {
     this.modalConfig.set({
       type: this.ModalType.DANGER,
-      title: 'Atenção'
+      title: 'Atenção',
+      message: 'Tem certeza que deseja excluir esta categoria?',
+      showCancelButton: true
     });
+
     this.isModalOpen.set(true);
   }
 
-  deletarCategory() {
-    console.log('Categoria deletada');
+
+  async onConfirmeModal() {
+    const id = this.categoryToDelete();
+
+    if (this.modalConfig().type === ModalType.SUCCESS) {
+      this.isModalOpen.set(false);
+      return;
+    }
+
+    if (!id) return;
+
+    try {
+
+      await firstValueFrom(this.categoryService.delete(id));
+
+      this.modalConfig.set({
+        type: this.ModalType.SUCCESS,
+        title: 'Sucesso',
+        message: 'Categoria excluída com sucesso!',
+        showCancelButton: false
+      });
+
+      if (this.modalConfig().type === ModalType.SUCCESS) {
+      this.loadCategories();
+  }
+
+    } catch (error) {
+      this.modalConfig.set({
+        type: this.ModalType.DANGER,
+        title: 'Erro',
+        message: 'Erro ao excluir categoria!',
+        showCancelButton: false
+      });
+    }
+
+  }
+
+  deletarCategory(categoryId: number): void {
+    this.categoryService.delete(categoryId);
+    this.isModalOpen.set(false);
   }
 }

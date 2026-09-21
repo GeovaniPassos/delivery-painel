@@ -11,7 +11,10 @@ import { NgClass } from '@angular/common';
 export class GenericModal {
   type = input.required<ModalType>();
   title = input<string>();
+  message = input<string>();
   isOpen = input<boolean>(false);
+
+  showCancel = input<boolean>(true);
 
   confirm = output<void>();
   cancel = output<void>();

@@ -15,7 +15,7 @@
       @for (category of categories(); track category.id) {
       <li>{{ category.name }}
         <button class="btn btn-edit">Editar</button>
-        <button class="btn btn-delete" (click)="openDeleteModal()">Excluir</button>
+        <button class="btn btn-delete" (click)="onClickDeleteCategory(category.id)">Excluir</button>
       </li>
       }
   </ul>
@@ -24,12 +24,13 @@
 <app-generic-modal 
     [type]="modalConfig().type"   
     [title]="modalConfig().title"
+    [message]="modalConfig().message"
     [isOpen]="isModalOpen()"
-    (confirm)="deletarCategory()"
+    (confirm)="onConfirmeModal()"
     (cancel)="isModalOpen.set(false)">
     
     <!-- O texto abaixo entra no <ng-content> -->
-    <p>Tem certeza que deseja excluir esta categoria?</p>
+    <p>{{ modalConfig().message }}</p>
     
 </app-generic-modal>
 

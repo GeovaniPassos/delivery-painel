@@ -21,13 +21,18 @@
 
       <!-- Rodapé com Botões específicos -->
       <div class="modal-footer">
-        <button class="btn-secondary" (click)="onCancel()">Cancelar</button>
-        
-        <button class="btn-primary" 
-                [ngClass]="{'btn-danger': type() === ModalType.DANGER}" 
-                (click)="onConfirm()">
-          Confirmar
-        </button>
+
+        @if (type() === ModalType.SUCCESS) {
+          <button class="btn-secondary" (click)="onCancel()">Fechar</button>
+        } @else {
+          <!-- Comportamento normal para os outros modais (Danger, Alert, etc) -->
+          @if (showCancel()) {
+            <button class="btn-secondary" (click)="onCancel()">Cancelar</button>
+          }
+          <button class="btn-primary" [ngClass]="{ 'btn-danger': type() === ModalType.DANGER }" (click)="onConfirm()">
+            Confirmar
+          </button>
+        }
       </div>
 
     </div>
