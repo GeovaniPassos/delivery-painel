@@ -89,13 +89,67 @@ ul > li .btn {
 	background: transparent;
 }
 
-ul > li .btn-edit {
+.container-status {
 	margin-left: auto;
+}
+
+.container-status, p {
+	font-size: 10px;
+	text-align: center;
+
 }
 
 ul > li .btn::before {
 	font-size: var(--font-size-lg);
 }
+
+/* Oculta o checkbox padrão */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 35px;
+  height: 20px;
+  margin-left: auto;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Estilo do fundo do botão */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+/* Estilo da bolinha interna */
+.slider:before {
+	position: absolute;
+	content: "";
+	height: 17px;
+	width: 17px;
+	left: 2px;
+	bottom: 2px;
+	background-color: white;
+	transition: .4s;
+	border-radius: 50%;
+}
+
+/* Mudança de cor e movimento ao marcar */
+input:checked + .slider {
+  background-color: var(--accent);
+}
+
+input:checked + .slider:before {
+  transform: translateX(14px);
+}
+
 
 ul > li .btn-edit::before {
 	content: '\270E';
