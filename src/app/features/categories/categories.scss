@@ -132,13 +132,19 @@ ul > li .btn::before {
 .slider:before {
 	position: absolute;
 	content: "";
-	height: 17px;
-	width: 17px;
-	left: 2px;
+	height: 16px;
+	width: 16px;
+	left: 3px;
 	bottom: 2px;
 	background-color: white;
 	transition: .4s;
 	border-radius: 50%;
+}
+
+.span-input-alert {
+	font-size: 12px;
+	color: red;
+	margin-left: auto;
 }
 
 /* Mudança de cor e movimento ao marcar */
@@ -153,6 +159,7 @@ input:checked + .slider:before {
 
 ul > li .btn-edit::before {
 	content: '\270E';
+
 }
 
 ul > li .btn-delete::before {
@@ -160,8 +167,8 @@ ul > li .btn-delete::before {
 }
 
 ul > li .btn-edit:hover {
-	color: var(--accent);
-	background: var(--accent-dark);
+	color: var(--danger-text);
+	background: var(--danger-dark);
 }
 
 ul > li .btn-delete:hover {

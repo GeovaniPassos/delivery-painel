@@ -15,9 +15,9 @@
       @for (category of categories(); track category.id) {
       <li>{{ category.name }}
         <div class="container-status">
-          <p class="category-status">Ativo</p>
+          <p class="category-status-tittle">Inativo</p>
           <label class="switch">
-            <input type="checkbox">
+            <input type="checkbox" (click)="inativeCategory(category.id)">
             <span class="slider"></span>
           </label>
         </div>
@@ -48,13 +48,20 @@
     title="Nova categoria"
     (close)="closeCategoryModal()">
 
-      <form>
+      <form [formGroup]="categoryForm" (ngSubmit)="saveCategory()">
         <div>
           <label for="name">Nome</label>
           <input
             id="name"
-            type="text">
+            type="text"
+            formControlName="name">
         </div>
+        @if (categoryForm.controls.name.touched && 
+            categoryForm.controls.name.hasError('required')) {
+            <span class="span-input-alert">
+              O nome é obrigatório.
+            </span>
+        }
 
         <button type="submit">
           Salvar
@@ -62,7 +69,6 @@
       </form>
 
   </app-form-modal>
-
 }
 
 

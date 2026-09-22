@@ -5,9 +5,13 @@ import { ModalType } from '../../shared/enums/modal-type.enum';
 import { GenericModal } from '../../shared/components/modal/confirmation-modal/generic-modal';
 import { firstValueFrom } from 'rxjs';
 import { FormModal } from '../../shared/components/modal/form-modal/form-modal';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
-  imports: [GenericModal, FormModal],
+  imports: [GenericModal, 
+    FormModal,
+    ReactiveFormsModule,
+  ],
   selector: 'app-categories',
   styleUrl: './categories.scss',
   templateUrl: './categories.html',
@@ -33,6 +37,12 @@ export class Categories implements OnInit{
     showCancelButton: true
   });
 
+  categoryForm = new FormGroup({
+    name: new FormControl('', [
+      Validators.required
+      ]),
+    actived: new FormControl(true)
+  });
 
   ngOnInit(): void {
     this.loadCategories();
@@ -64,7 +74,17 @@ export class Categories implements OnInit{
   }
 
   closeCategoryModal() {
+    this.categoryForm.reset();
     this.categoryModalOpen.set(false);
+  }
+
+  saveCategory() {
+    if (this.categoryForm.invalid) {
+      this.categoryForm.markAllAsTouched();
+      return;
+  }
+    console.log("salvado a criação da categoria: ", this.categoryForm.value);
+    this.closeCategoryModal();
   }
 
   onClickDeleteCategory(categoryId: number): void {
@@ -80,6 +100,9 @@ export class Categories implements OnInit{
     this.isModalOpen.set(true);
   }
 
+  inativeCategory(categoryId: number) {
+    //ajustar a inativação da categoria
+  }
 
   async onConfirmeModal() {
     const id = this.categoryToDelete();
