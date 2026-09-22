@@ -2,11 +2,12 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { CategoryService } from './service/category.service';
 import { Category } from './model/category.model';
 import { ModalType } from '../../shared/enums/modal-type.enum';
-import { GenericModal } from '../../shared/components/modal/generic-modal/generic-modal';
+import { GenericModal } from '../../shared/components/modal/confirmation-modal/generic-modal';
 import { firstValueFrom } from 'rxjs';
+import { FormModal } from '../../shared/components/modal/form-modal/form-modal';
 
 @Component({
-  imports: [GenericModal],
+  imports: [GenericModal, FormModal],
   selector: 'app-categories',
   styleUrl: './categories.scss',
   templateUrl: './categories.html',
@@ -18,20 +19,23 @@ export class Categories implements OnInit{
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
 
+  protected categoryModalOpen = signal(false);
+
   protected readonly ModalType = ModalType;
-  
+
   protected isModalOpen = signal(false);
   protected categoryToDelete = signal<number | null>(null);
 
-  protected modalConfig = signal({ 
-    type: ModalType.CONFIRMATION, 
+  protected modalConfig = signal({
+    type: ModalType.CONFIRMATION,
     title: '',
     message: '',
     showCancelButton: true
   });
 
+
   ngOnInit(): void {
-    this.loadCategories();  
+    this.loadCategories();
   }
 
   private loadCategories(): void {
@@ -52,11 +56,20 @@ export class Categories implements OnInit{
   }
 
   onAddCategory(): void {
+    this.openCategoryModal();
+  }
+
+  openCategoryModal() {
+    this.categoryModalOpen.set(true);
+  }
+
+  closeCategoryModal() {
+    this.categoryModalOpen.set(false);
   }
 
   onClickDeleteCategory(categoryId: number): void {
     this.categoryToDelete.set(categoryId);
-    
+
     this.modalConfig.set({
       type: this.ModalType.DANGER,
       title: 'Atenção',

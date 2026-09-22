@@ -1,0 +1,22 @@
+<div class="modal-overlay">
+
+  <div class="modal">
+
+    <div class="modal-header">
+      <h2>{{ title() }}</h2>
+
+      <button
+        type="button"
+        class="modal-close"
+        (click)="onClose()">
+        ×
+      </button>
+    </div>
+
+    <div class="modal-content">
+      <ng-content />
+    </div>
+
+  </div>
+
+</div>

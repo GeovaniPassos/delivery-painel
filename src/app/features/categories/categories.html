@@ -1,6 +1,6 @@
 <div class="categories-header">
   <h1>Lista de categorias</h1>
-  <button class="btn btn-primary" (click)="onAddCategory()" >Adicionar categoria</button> 
+  <button class="btn btn-primary" (click)="onAddCategory()" >Adicionar categoria</button>
 </div>
 
 
@@ -19,20 +19,43 @@
       </li>
       }
   </ul>
-} 
+}
 
-<app-generic-modal 
-    [type]="modalConfig().type"   
+<app-generic-modal
+    [type]="modalConfig().type"
     [title]="modalConfig().title"
     [message]="modalConfig().message"
     [isOpen]="isModalOpen()"
     (confirm)="onConfirmeModal()"
     (cancel)="isModalOpen.set(false)">
-    
+
     <!-- O texto abaixo entra no <ng-content> -->
     <p>{{ modalConfig().message }}</p>
-    
+
 </app-generic-modal>
+
+@if (categoryModalOpen()) {
+
+  <app-form-modal
+    title="Nova categoria"
+    (close)="closeCategoryModal()">
+
+      <form>
+        <div>
+          <label for="name">Nome</label>
+          <input
+            id="name"
+            type="text">
+        </div>
+
+        <button type="submit">
+          Salvar
+        </button>
+      </form>
+
+  </app-form-modal>
+
+}
 
 
 
