@@ -3,6 +3,7 @@ import { Category } from "../model/category.model";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../../environments/environment.development";
+import { CreateCategoryDto } from "../model/create-category.dto";
 
 @Injectable({
     providedIn: 'root'
@@ -18,5 +19,9 @@ export class CategoryService {
 
     delete(categoryId: number): Observable<void> {
         return this.http.delete<void>(`${this.apiUrl}/${categoryId}`);
+    }
+
+    create(category: CreateCategoryDto): Observable<unknown> {
+        return this.http.post(this.apiUrl, category)
     }
 }

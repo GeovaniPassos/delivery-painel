@@ -15,9 +15,12 @@
       @for (category of categories(); track category.id) {
       <li>{{ category.name }}
         <div class="container-status">
-          <p class="category-status-tittle">Inativo</p>
+          <p class="category-status-tittle">
+            {{ category.active ? 'Ativa' : 'Inativa' }}
+          </p>
           <label class="switch">
-            <input type="checkbox" (click)="inativeCategory(category.id)">
+            <input type="checkbox" [checked]="category.active"
+            (change)="toggleCategoryStatus(category)">
             <span class="slider"></span>
           </label>
         </div>
@@ -38,7 +41,7 @@
     (cancel)="isModalOpen.set(false)">
 
     <!-- O texto abaixo entra no <ng-content> -->
-    <p>{{ modalConfig().message }}</p>
+    <p class="message-modal">{{ modalConfig().message }}</p>
 
 </app-generic-modal>
 

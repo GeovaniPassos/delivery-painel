@@ -6,6 +6,8 @@ import { GenericModal } from '../../shared/components/modal/confirmation-modal/g
 import { firstValueFrom } from 'rxjs';
 import { FormModal } from '../../shared/components/modal/form-modal/form-modal';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CreateCategoryDto } from './model/create-category.dto';
+import { NonNullAssert } from '@angular/compiler';
 
 @Component({
   imports: [GenericModal, 
@@ -38,10 +40,12 @@ export class Categories implements OnInit{
   });
 
   categoryForm = new FormGroup({
-    name: new FormControl('', [
+    name: new FormControl('', {
+      nonNullable: true,
+      validators: [
       Validators.required
-      ]),
-    actived: new FormControl(true)
+      ]
+    })
   });
 
   ngOnInit(): void {
@@ -82,8 +86,25 @@ export class Categories implements OnInit{
     if (this.categoryForm.invalid) {
       this.categoryForm.markAllAsTouched();
       return;
-  }
-    console.log("salvado a criação da categoria: ", this.categoryForm.value);
+    }
+
+    const formValue = this.categoryForm.getRawValue();
+
+    const category: CreateCategoryDto = {
+      name: formValue.name
+    };
+
+    this.categoryService.create(category)
+      .subscribe({
+        next: (response) => {
+          console.log('Categoria criada', response);
+          this.loadCategories();
+        },
+        error: (error) => {
+          console.log('Erro ao criar a categoria.', error)
+        }
+      });
+    
     this.closeCategoryModal();
   }
 
@@ -100,8 +121,9 @@ export class Categories implements OnInit{
     this.isModalOpen.set(true);
   }
 
-  inativeCategory(categoryId: number) {
-    //ajustar a inativação da categoria
+  toggleCategoryStatus(category: any) {
+    category.active = !category.active;
+    
   }
 
   async onConfirmeModal() {
@@ -137,7 +159,6 @@ export class Categories implements OnInit{
         showCancelButton: false
       });
     }
-
   }
 
   deletarCategory(categoryId: number): void {
