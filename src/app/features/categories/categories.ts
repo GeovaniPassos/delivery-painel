@@ -229,8 +229,10 @@ export class Categories implements OnInit{
       });
 
       if (this.modalConfig().type === ModalType.SUCCESS) {
-      this.loadCategories();
-  }
+        this.categories.update(categories => 
+            categories.filter(category => category.id !== id)
+        );
+      }
 
     } catch (error) {
       this.modalConfig.set({
