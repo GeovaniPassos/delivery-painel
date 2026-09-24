@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../environments/environment.development";
 import { CreateCategoryDto } from "./model/create-category.dto";
+import { UpdateCategoryDto } from "./model/update-category.dto";
 
 @Injectable({
     providedIn: 'root'
@@ -27,5 +28,9 @@ export class CategoryService {
 
     toggleStatus(id: Number): Observable<any> {
       return this.http.patch(`${this.apiUrl}/${id}/toggleStatus`, {});
+    }
+
+    update(id: number, category: UpdateCategoryDto): Observable<Category> {
+      return this.http.patch<Category>(`${this.apiUrl}/${id}`, category);
     }
 }

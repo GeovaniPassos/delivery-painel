@@ -25,7 +25,7 @@
           </label>
         </div>
 
-        <button class="btn btn-edit">Editar</button>
+        <button class="btn btn-edit" (click)="openEditCategoryModal(category)">Editar</button>
         <button class="btn btn-delete" (click)="onClickDeleteCategory(category.id)">Excluir</button>
       </li>
       }
@@ -48,7 +48,9 @@
 @if (categoryModalOpen()) {
 
   <app-form-modal
-    title="Nova categoria"
+    [title]="editingCategory()
+      ? 'Editar categoria'
+      : 'Nova categoria'"
     (close)="closeCategoryModal()">
 
       <form [formGroup]="categoryForm" (ngSubmit)="saveCategory()">

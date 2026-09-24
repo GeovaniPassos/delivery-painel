@@ -11,6 +11,7 @@ import { NonNullAssert } from '@angular/compiler';
 import { NotificationService } from '../../shared/components/notification/NotificationService';
 import { SystemMessages } from '../../shared/constants/system-message';
 import { ResourceName } from '../../shared/enums/resource-name';
+import { UpdateCategoryDto } from './model/update-category.dto';
 
 @Component({
   imports: [GenericModal,
@@ -28,6 +29,8 @@ export class Categories implements OnInit{
   readonly categories = signal<Category[]>([]);
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
+
+  editingCategory = signal<Category | null>(null);
 
   protected categoryModalOpen = signal(false);
 
@@ -49,6 +52,10 @@ export class Categories implements OnInit{
       validators: [
       Validators.required
       ]
+    }),
+
+    active: new FormControl(true, {
+      nonNullable: true
     })
   });
 
@@ -78,6 +85,25 @@ export class Categories implements OnInit{
   }
 
   openCategoryModal() {
+
+    this.editingCategory.set(null);
+
+    this.categoryForm.reset({
+      name: '',
+      active: true
+    });
+
+    this.categoryModalOpen.set(true);
+  }
+
+  openEditCategoryModal(category: Category) {
+    this .editingCategory.set(category);
+
+    this.categoryForm.setValue({
+      name: category.name,
+      active: category.active
+    });
+
     this.categoryModalOpen.set(true);
   }
 
@@ -91,6 +117,51 @@ export class Categories implements OnInit{
       this.categoryForm.markAllAsTouched();
       return;
     }
+
+    if (this.editingCategory()) {
+      this.updateCategory();
+    } else {
+      this.createCategory();
+    }
+  }
+
+  updateCategory() {
+
+    const category = this.editingCategory();
+
+    if (!category) {
+      return;
+    }
+
+    const dto: UpdateCategoryDto = {
+      name: this.categoryForm.controls.name.value,
+      active: this.categoryForm.controls.active.value
+    };
+
+    this.categoryService.update(category.id, dto)
+      .subscribe({
+        next: (updatedCategory) => {
+          this.categories.update(categories =>
+            categories.map(category =>
+              category.id === updatedCategory.id
+              ? updatedCategory
+              : category
+            )
+          );
+
+          this.closeCategoryModal();
+
+          this.notificationService.success(SystemMessages.updateSuccess('categoria'));
+        },
+        error: () => {
+          this.notificationService.error(SystemMessages.updateError('a categoria'));
+        }
+
+      })
+
+  }
+
+  createCategory() {
 
     const formValue = this.categoryForm.getRawValue();
 
@@ -115,7 +186,6 @@ export class Categories implements OnInit{
           this.notificationService.error(SystemMessages.createError('a categoria'));
         }
       });
-
 
   }
 
