@@ -6,15 +6,28 @@ import { Notification, NotificationType } from "./notification.model.ts";
 })
 export class NotificationService {
 
-  notification = signal<Notification | null>(null);
+  private readonly _notification = signal<Notification | null>(null);
 
-  show(message: string, type: NotificationType, duration = 2000) {
-    this.notification.set({
+  readonly Notification = this._notification.asReadonly();
+
+  private timeoutId?: ReturnType<typeof setTimeout>;
+
+  show(
+    message: string,
+    type: NotificationType,
+    duration = 2000
+  ) {
+
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+    }
+
+    this._notification.set({
       message,
       type
     });
 
-    setTimeout(() => {
+    this.timeoutId = setTimeout(() => {
     this.hide();
     }, duration);
   }
@@ -36,6 +49,11 @@ export class NotificationService {
   }
 
   hide() {
-    this.notification.set(null);
+    this._notification.set(null);
+
+    if (this.timeoutId) {
+    clearTimeout(this.timeoutId);
+    this.timeoutId = undefined;
+    }
   }
 }

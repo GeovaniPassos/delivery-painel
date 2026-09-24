@@ -9,6 +9,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CreateCategoryDto } from './model/create-category.dto';
 import { NonNullAssert } from '@angular/compiler';
 import { NotificationService } from '../../shared/components/notification/NotificationService';
+import { SystemMessages } from '../../shared/constants/system-message';
+import { ResourceName } from '../../shared/enums/resource-name';
 
 @Component({
   imports: [GenericModal,
@@ -64,8 +66,8 @@ export class Categories implements OnInit{
         this.loading.set(false);
       },
       error: (err) => {
-        this.error.set('Failed to load categories');
-        console.error(err);
+        this.notificationService.error(SystemMessages.loadError('a lista de categorias'));
+
         this.loading.set(false);
       },
     });
@@ -106,11 +108,11 @@ export class Categories implements OnInit{
 
           this.closeCategoryModal();
 
-          this.notificationService.success('Categoria criada com sucesso.');
+          this.notificationService.success(SystemMessages.createSuccess('categoria'));
 
         },
         error: (error) => {
-          this.notificationService.error('Não foi possivel criar a categoria.');
+          this.notificationService.error(SystemMessages.createError('a categoria'));
         }
       });
 
@@ -123,7 +125,7 @@ export class Categories implements OnInit{
     this.modalConfig.set({
       type: this.ModalType.DANGER,
       title: 'Atenção',
-      message: 'Tem certeza que deseja excluir esta categoria?',
+      message: SystemMessages.confirmationDelete('categoria'),
       showCancelButton: true
     });
 
@@ -134,10 +136,10 @@ export class Categories implements OnInit{
     this.categoryService.toggleStatus(id)
       .subscribe({
       next: (response) => {
-        this.notificationService.success('Status alterado com sucesso!');
+        this.notificationService.success(ResourceName.STATUS_SUCESS);
       },
       error: (error) => {
-        this.notificationService.error('Não foi possivel alterar status.');
+        this.notificationService.error(ResourceName.STATUS_FAILURE);
       }
     });
   }
@@ -159,7 +161,7 @@ export class Categories implements OnInit{
       this.modalConfig.set({
         type: this.ModalType.SUCCESS,
         title: 'Sucesso',
-        message: 'Categoria excluída com sucesso!',
+        message: SystemMessages.deleteSuccess('categoria'),
         showCancelButton: false
       });
 
@@ -171,7 +173,7 @@ export class Categories implements OnInit{
       this.modalConfig.set({
         type: this.ModalType.DANGER,
         title: 'Erro',
-        message: 'Erro ao excluir categoria!',
+        message: SystemMessages.deleteError('a categoria'),
         showCancelButton: false
       });
     }
