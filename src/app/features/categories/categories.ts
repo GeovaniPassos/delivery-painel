@@ -10,7 +10,7 @@ import { CreateCategoryDto } from './model/create-category.dto';
 import { NonNullAssert } from '@angular/compiler';
 
 @Component({
-  imports: [GenericModal, 
+  imports: [GenericModal,
     FormModal,
     ReactiveFormsModule,
   ],
@@ -97,15 +97,20 @@ export class Categories implements OnInit{
     this.categoryService.create(category)
       .subscribe({
         next: (response) => {
-          console.log('Categoria criada', response);
-          this.loadCategories();
+          this.categories.update(categories => [
+            ...categories,
+            response
+          ]);
+
+          this.closeCategoryModal();
+
         },
         error: (error) => {
           console.log('Erro ao criar a categoria.', error)
         }
       });
-    
-    this.closeCategoryModal();
+
+
   }
 
   onClickDeleteCategory(categoryId: number): void {
@@ -121,9 +126,16 @@ export class Categories implements OnInit{
     this.isModalOpen.set(true);
   }
 
-  toggleCategoryStatus(category: any) {
-    category.active = !category.active;
-    
+  toggleCategoryStatus(id: number) {
+    this.categoryService.toggleStatus(id)
+      .subscribe({
+      next: (response) => {
+        console.log('Status alterado com sucesso!', response);
+      },
+      error: (error) => {
+        console.error('Erro ao alterar status:', error);
+      }
+    });
   }
 
   async onConfirmeModal() {

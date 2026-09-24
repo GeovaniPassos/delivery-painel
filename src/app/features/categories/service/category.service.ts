@@ -14,14 +14,18 @@ export class CategoryService {
     private readonly apiUrl = `${environment.apiUrl}/categories`;
 
     findAll(): Observable<Category[]> {
-        return this.http.get<Category[]>(this.apiUrl);
+      return this.http.get<Category[]>(this.apiUrl);
     }
 
     delete(categoryId: number): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}/${categoryId}`);
+      return this.http.delete<void>(`${this.apiUrl}/${categoryId}`);
     }
 
-    create(category: CreateCategoryDto): Observable<unknown> {
-        return this.http.post(this.apiUrl, category)
+    create(category: CreateCategoryDto): Observable<Category> {
+      return this.http.post<Category>(this.apiUrl, category);
+    }
+
+    toggleStatus(id: Number): Observable<any> {
+      return this.http.patch(`${this.apiUrl}/${id}/toggleStatus`, {});
     }
 }
