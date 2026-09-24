@@ -1,0 +1,33 @@
+.notification {
+  position: fixed;
+
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  min-width: 300px;
+  padding: 14px 20px;
+
+  border-radius: 6px;
+
+  color: white;
+  text-align: center;
+
+  z-index: 9999;
+}
+
+.success {
+  background: #2e7d32;
+}
+
+.error {
+  background: #c62828;
+}
+
+.warning {
+  background: #ed6c02;
+}
+
+.info {
+  background: #0288d1;
+}

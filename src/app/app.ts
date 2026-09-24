@@ -1,8 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { Notification } from './shared/components/notification/notification';
 
 @Component({
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, Notification],
   selector: 'app-root',
   styleUrl: './app.scss',
   templateUrl: './app.html',

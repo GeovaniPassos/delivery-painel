@@ -1,9 +1,9 @@
 import { inject, Injectable } from "@angular/core";
-import { Category } from "../model/category.model";
+import { Category } from "./model/category.model";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
-import { environment } from "../../../../environments/environment.development";
-import { CreateCategoryDto } from "../model/create-category.dto";
+import { environment } from "../../../environments/environment.development";
+import { CreateCategoryDto } from "./model/create-category.dto";
 
 @Injectable({
     providedIn: 'root'

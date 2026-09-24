@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { CategoryService } from './service/category.service';
+import { CategoryService } from './category.service';
 import { Category } from './model/category.model';
 import { ModalType } from '../../shared/enums/modal-type.enum';
 import { GenericModal } from '../../shared/components/modal/confirmation-modal/generic-modal';
@@ -8,6 +8,7 @@ import { FormModal } from '../../shared/components/modal/form-modal/form-modal';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CreateCategoryDto } from './model/create-category.dto';
 import { NonNullAssert } from '@angular/compiler';
+import { NotificationService } from '../../shared/components/notification/NotificationService';
 
 @Component({
   imports: [GenericModal,
@@ -20,6 +21,7 @@ import { NonNullAssert } from '@angular/compiler';
 })
 export class Categories implements OnInit{
   private readonly categoryService = inject(CategoryService);
+  private notificationService = inject(NotificationService);
 
   readonly categories = signal<Category[]>([]);
   readonly loading = signal(false);
@@ -104,9 +106,11 @@ export class Categories implements OnInit{
 
           this.closeCategoryModal();
 
+          this.notificationService.success('Categoria criada com sucesso.');
+
         },
         error: (error) => {
-          console.log('Erro ao criar a categoria.', error)
+          this.notificationService.error('Não foi possivel criar a categoria.');
         }
       });
 
@@ -130,10 +134,10 @@ export class Categories implements OnInit{
     this.categoryService.toggleStatus(id)
       .subscribe({
       next: (response) => {
-        console.log('Status alterado com sucesso!', response);
+        this.notificationService.success('Status alterado com sucesso!');
       },
       error: (error) => {
-        console.error('Erro ao alterar status:', error);
+        this.notificationService.error('Não foi possivel alterar status.');
       }
     });
   }
