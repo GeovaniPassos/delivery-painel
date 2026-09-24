@@ -53,10 +53,6 @@ export class Categories implements OnInit{
       Validators.required
       ]
     }),
-
-    active: new FormControl(true, {
-      nonNullable: true
-    })
   });
 
   ngOnInit(): void {
@@ -72,7 +68,7 @@ export class Categories implements OnInit{
         this.categories.set(categories);
         this.loading.set(false);
       },
-      error: (err) => {
+      error: () => {
         this.notificationService.error(SystemMessages.loadError('a lista de categorias'));
 
         this.loading.set(false);
@@ -90,7 +86,6 @@ export class Categories implements OnInit{
 
     this.categoryForm.reset({
       name: '',
-      active: true
     });
 
     this.categoryModalOpen.set(true);
@@ -101,7 +96,6 @@ export class Categories implements OnInit{
 
     this.categoryForm.setValue({
       name: category.name,
-      active: category.active
     });
 
     this.categoryModalOpen.set(true);
@@ -135,7 +129,6 @@ export class Categories implements OnInit{
 
     const dto: UpdateCategoryDto = {
       name: this.categoryForm.controls.name.value,
-      active: this.categoryForm.controls.active.value
     };
 
     this.categoryService.update(category.id, dto)
@@ -182,7 +175,7 @@ export class Categories implements OnInit{
           this.notificationService.success(SystemMessages.createSuccess('categoria'));
 
         },
-        error: (error) => {
+        error: () => {
           this.notificationService.error(SystemMessages.createError('a categoria'));
         }
       });
@@ -205,10 +198,10 @@ export class Categories implements OnInit{
   toggleCategoryStatus(id: number) {
     this.categoryService.toggleStatus(id)
       .subscribe({
-      next: (response) => {
+      next: () => {
         this.notificationService.success(ResourceName.STATUS_SUCESS);
       },
-      error: (error) => {
+      error: () => {
         this.notificationService.error(ResourceName.STATUS_FAILURE);
       }
     });
