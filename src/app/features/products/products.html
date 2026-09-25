@@ -1,1 +1,58 @@
-<p>products works!</p>
+<div class="products-header">
+  <h1>Lista de produtos</h1>
+  <button class="btn" (click)="openProductModal()" [disabled]="loading() || !!error() || !categories().length">Adicionar produto</button>
+</div>
+@if (loading()) {
+  <p>Carregando...</p>
+} @else if (error()) {
+  <p role="alert">{{ error() }}</p><button class="btn" (click)="loadProducts()">Tentar novamente</button>
+} @else {
+  @if (!categories().length) { <p>Cadastre uma categoria antes de adicionar produtos.</p> }
+  @if (!products().length) { <p>Nenhum produto encontrado.</p> }
+  <ul class="product-list">
+    @for (product of products(); track product.id) {
+      <li>
+        @if (product.photo) { <img [src]="product.photo" [alt]="product.name" loading="lazy"> }
+        <div class="product-info">
+          <strong>{{ product.name }}</strong><p>{{ product.description }}</p><small>{{ product.category.name }}</small>
+          <p>
+            @if (product.promotionalPrice !== null) {
+              <del>{{ product.price | currency:'BRL':'symbol':'1.2-2' }}</del>
+              <strong>{{ product.promotionalPrice | currency:'BRL':'symbol':'1.2-2' }}</strong>
+            } @else { <strong>{{ product.price | currency:'BRL':'symbol':'1.2-2' }}</strong> }
+          </p>
+        </div>
+        <button class="btn" [disabled]="busyId() !== null" [attr.aria-label]="'Alterar disponibilidade de ' + product.name" [attr.aria-pressed]="product.available" (click)="toggleStatus(product)">{{ product.available ? 'Disponível' : 'Indisponível' }}</button>
+        <button class="btn" [disabled]="busyId() !== null" (click)="openProductModal(product)">Editar</button>
+        <button class="btn" [disabled]="busyId() !== null" (click)="productToDelete.set(product)">Excluir</button>
+      </li>
+    }
+  </ul>
+}
+<app-generic-modal [type]="ModalType.DANGER" title="Excluir produto" [isOpen]="!!productToDelete()" (confirm)="deleteProduct()" (cancel)="productToDelete.set(null)">
+  <p>Deseja excluir o produto “{{ productToDelete()?.name }}”?</p>
+</app-generic-modal>
+@if (modalOpen()) {
+  <app-form-modal [title]="editingProduct() ? 'Editar produto' : 'Novo produto'" (close)="closeProductModal()">
+    <form [formGroup]="productForm" (ngSubmit)="saveProduct()">
+      <fieldset [disabled]="saving()">
+        <label for="product-name">Nome *</label><input id="product-name" formControlName="name" maxlength="120">
+        @if (productForm.controls.name.touched && productForm.controls.name.invalid) { <small class="validation">Informe um nome entre 2 e 120 caracteres.</small> }
+        <label for="product-description">Descrição</label><textarea id="product-description" formControlName="description" maxlength="5000" rows="3"></textarea>
+        <label for="product-photo">Foto (URL)</label><input id="product-photo" type="url" formControlName="photo" placeholder="https://exemplo.com/foto.jpg">
+        @if (productForm.controls.photo.touched && productForm.controls.photo.invalid) { <small class="validation">Informe uma URL HTTP ou HTTPS válida.</small> }
+        <label for="product-price">Valor (R$) *</label><input id="product-price" type="number" formControlName="price" min="0.01" max="99999999.99" step="0.01">
+        @if (productForm.controls.price.touched && productForm.controls.price.invalid) { <small class="validation">Informe um valor positivo, com até duas casas decimais.</small> }
+        <label for="product-promotion">Valor promocional (R$)</label><input id="product-promotion" type="number" formControlName="promotionalPrice" min="0.01" step="0.01">
+        @if (productForm.controls.promotionalPrice.touched && (productForm.controls.promotionalPrice.invalid || productForm.hasError('promotion'))) { <small class="validation">Informe um valor positivo menor que o preço normal, com até duas casas decimais.</small> }
+        <label for="product-category">Categoria *</label>
+        <select id="product-category" formControlName="categoryId"><option [ngValue]="null">Selecione uma categoria</option>
+          @for (category of categories(); track category.id) { <option [ngValue]="category.id">{{ category.name }}{{ category.active ? '' : ' (inativa)' }}</option> }
+        </select>
+        @if (productForm.controls.categoryId.touched && productForm.controls.categoryId.invalid) { <small class="validation">Selecione uma categoria.</small> }
+        <label class="availability"><input type="checkbox" formControlName="available"> Disponível</label>
+        <button class="btn" type="submit" [disabled]="saving()">{{ saving() ? 'Salvando...' : 'Salvar' }}</button>
+      </fieldset>
+    </form>
+  </app-form-modal>
+}
