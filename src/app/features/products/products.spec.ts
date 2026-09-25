@@ -8,11 +8,33 @@ import { Product } from './model/product.model';
 
 describe('Products', () => {
   const category = { id: 1, name: 'Lanches', active: true };
-  const product: Product = { id: 1, name: 'Hambúrguer', description: '', photo: null, price: 20, promotionalPrice: null, categoryId: 1, category, available: true };
+  const product: Product = {
+    id: 1,
+    name: 'Hambúrguer',
+    description: '',
+    photo: null,
+    price: 20,
+    promotionalPrice: null,
+    categoryId: 1,
+    category,
+    available: true,
+  };
   let component: Products;
-  let service: { findAll: ReturnType<typeof vi.fn>; create: ReturnType<typeof vi.fn>; update: ReturnType<typeof vi.fn>; delete: ReturnType<typeof vi.fn>; toggleStatus: ReturnType<typeof vi.fn> };
+  let service: {
+    findAll: ReturnType<typeof vi.fn>;
+    create: ReturnType<typeof vi.fn>;
+    update: ReturnType<typeof vi.fn>;
+    delete: ReturnType<typeof vi.fn>;
+    toggleStatus: ReturnType<typeof vi.fn>;
+  };
   beforeEach(async () => {
-    service = { findAll: vi.fn(() => of([product])), create: vi.fn(() => of(product)), update: vi.fn(() => of(product)), delete: vi.fn(() => of(undefined)), toggleStatus: vi.fn(() => of({ ...product, available: false })) };
+    service = {
+      findAll: vi.fn(() => of([product])),
+      create: vi.fn(() => of(product)),
+      update: vi.fn(() => of(product)),
+      delete: vi.fn(() => of(undefined)),
+      toggleStatus: vi.fn(() => of({ ...product, available: false })),
+    };
     await TestBed.configureTestingModule({
       imports: [Products],
       providers: [
@@ -33,22 +55,47 @@ describe('Products', () => {
     component.openProductModal();
     component.saveProduct();
     expect(service.create).not.toHaveBeenCalled();
-    component.productForm.patchValue({ name: 'Produto', price: 20, promotionalPrice: 25, categoryId: 1 });
+    component.productForm.patchValue({
+      name: 'Produto',
+      price: 20,
+      promotionalPrice: 25,
+      categoryId: 1,
+    });
     component.saveProduct();
     expect(service.create).not.toHaveBeenCalled();
   });
   it('sends all fields including unavailable status', () => {
     component.openProductModal();
-    component.productForm.patchValue({ name: ' Produto ', price: 20, categoryId: 1, available: false });
+    component.productForm.patchValue({
+      name: ' Produto ',
+      price: 20,
+      categoryId: 1,
+      available: false,
+    });
     component.saveProduct();
-    expect(service.create).toHaveBeenCalledWith({ name: 'Produto', description: '', photo: null, price: 20, promotionalPrice: null, categoryId: 1, available: false });
+    expect(service.create).toHaveBeenCalledWith({
+      name: 'Produto',
+      description: '',
+      photo: null,
+      price: 20,
+      promotionalPrice: null,
+      categoryId: 1,
+      available: false,
+    });
     expect(component.modalOpen()).toBe(false);
   });
   it('edits and clears the optional fields', () => {
-    component.openProductModal({ ...product, photo: 'https://example.com/a.jpg', promotionalPrice: 10 });
+    component.openProductModal({
+      ...product,
+      photo: 'https://example.com/a.jpg',
+      promotionalPrice: 10,
+    });
     component.productForm.patchValue({ photo: '', promotionalPrice: null });
     component.saveProduct();
-    expect(service.update).toHaveBeenCalledWith(1, expect.objectContaining({ photo: null, promotionalPrice: null }));
+    expect(service.update).toHaveBeenCalledWith(
+      1,
+      expect.objectContaining({ photo: null, promotionalPrice: null }),
+    );
   });
   it('updates availability from the API and preserves state on error', () => {
     component.toggleStatus(product);
